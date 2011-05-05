@@ -1,3 +1,6 @@
 db.runCommand( { enablesharding : "request_logger_app" } );
 db.runCommand( { shardcollection : "request_logger_app.http_requests", key : { mod : 1 } });
+db.runCommand( { split : "request_logger_app.http_requests" , middle : { mod : 1 } } )
+db.runCommand( { moveChunk : "request_logger_app.http_requests", find : { mod : 0 }, to : "shard0000" } )
+db.runCommand( { moveChunk : "request_logger_app.http_requests", find : { mod : 1 }, to : "shard0001" } )
 
