@@ -29,3 +29,15 @@ execute "setup sharding on #{@node[:name] || @node[:instance_role]}" do
   command "#{@node[:mongo_path]}/bin/mongo admin #{setup_js}"
 end
 
+template setup_custom_js do
+  source "setup_sharding_custom.js.erb"
+  owner user[:username]
+  group user[:username]
+  mode '0755'
+  backup false
+end
+
+execute "customizing sharding on #{@node[:name] || @node[:instance_role]}" do
+  command "#{@node[:mongo_path]}/bin/mongo admin #{setup_custom_js}"
+end
+
